@@ -27,9 +27,8 @@ PDL::Apply - Apply a given function in "rolling" / "moving" / "over" manners
 
 This module allows you to:
 
-\* compute "rolling" functions (like `Moving Average`) with given sliding windows
-
-\* compute "over" like functions (like `sumover`) with arbitrary function applied
+- compute "rolling" functions (like `Moving Average`) with given sliding windows
+- compute "over" like functions (like `sumover`) with arbitrary function applied
 
 But keep in mind that the speed is far beyond the functions with C implementation like `sumover`.
 
