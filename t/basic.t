@@ -23,12 +23,13 @@ my $y = pdl([
 my $slices1 = indx([ [0, 2], [4, 5] ]);
 my $slices2 = indx([ [0, 2], [1, 4] ]);
 
-is($x->apply_over('sum'), 241.7);
-is_deeply($y->apply_over('sum')->unpdl, [
+delta_ok($x->apply_over('sum'), 241.7);
+delta_ok($y->apply_over('sum')->unpdl, [
                                          [  355, 297.8, 252.9],
                                          [299.2, 360.2, 213.7],
                                         ]);
 
+# XXX_FIXME: due to 'BAD' values it is not possible to use delta_ok()
 is_deeply(apply_rolling($x, 3, 'sum')->unpdl, ['BAD', 'BAD', 151.3, 143.9, 103, 90.4]);
 is_deeply(apply_rolling($y, 3, 'sum')->unpdl, [
                                                [
@@ -43,8 +44,8 @@ is_deeply(apply_rolling($y, 3, 'sum')->unpdl, [
                                                ]
                                               ]);
 
-is_deeply($x->apply_slice($slices1, 'sum')->unpdl, [151.3, 57.1]);
-is_deeply($y->apply_slice($slices2, 'sum')->unpdl, [
+delta_ok($x->apply_slice($slices1, 'sum')->unpdl, [151.3, 57.1]);
+delta_ok($y->apply_slice($slices2, 'sum')->unpdl, [
                                                     [
                                                      [251.1, 267.8],
                                                      [211.5, 220.6],
