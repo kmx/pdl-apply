@@ -29,10 +29,10 @@ thread_define '_apply_over(data(n);[o]output()),NOtherPars=>2', over {
   my $func = $_[2];
   my $args = $_[3];
   if (ref $func) {
-    $_[1] .= $func->($_[0], @$args);
+    $_[1] .= PDL::Core::topdl($func->($_[0], @$args));
   }
   else {
-    $_[1] .= $_[0]->$func(@$args);
+    $_[1] .= PDL::Core::topdl($_[0]->$func(@$args));
   }
 };
 
@@ -48,11 +48,17 @@ thread_define '_apply_slice_1D(slices(n);dummy();[o]output()),NOtherPars=>3', ov
   # XXX-HACK: in fact this whole function is one big hack
   my $func = $_[4];
   my $args = $_[5];
-  if (ref $func) {
-    $_[2] .= $func->(slice($_[3], $_[0]->unpdl), @$args);
+  my $data = slice($_[3], $_[0]->unpdl);
+  if ($data->ngood == 0) {
+    $_[2] .= PDL->new('BAD');
   }
   else {
-    $_[2] .= slice($_[3], $_[0]->unpdl)->$func(@$args);
+    if (ref $func) {
+      $_[2] .= PDL::Core::topdl($func->($data, @$args));
+    }
+    else {
+      $_[2] .= PDL::Core::topdl($data->$func(@$args));
+    }
   }
 };
 
@@ -72,6 +78,7 @@ sub apply_rolling {
 sub apply_slice {
   my ($pdl, $slices, $func, @fargs) = @_;
   my $result = null;
+  $result->badflag(1);
   if ($pdl->dims > 1) {
     _apply_slice_ND($pdl, $slices, $result, $func, \@fargs);
   }
@@ -83,7 +90,9 @@ sub apply_slice {
 
 sub apply_over {
   my ($pdl, $func, @fargs) = @_;
-  _apply_over($pdl, my $result = null, $func, \@fargs);
+  my $result = null;
+  $result->badflag(1);
+  _apply_over($pdl, $result, $func, \@fargs);
   return $result;
 }
 
