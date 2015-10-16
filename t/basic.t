@@ -29,20 +29,20 @@ delta_ok($y->apply_over('sum')->unpdl, [
                                          [299.2, 360.2, 213.7],
                                         ]);
 
-# XXX_FIXME: due to 'BAD' values it is not possible to use delta_ok()
-is_deeply(apply_rolling($x, 3, 'sum')->unpdl, ['BAD', 'BAD', 151.3, 143.9, 103, 90.4]);
-is_deeply(apply_rolling($y, 3, 'sum')->unpdl, [
+# due to 'BAD' values it is not possible to use delta_ok()
+ok(all(abs(apply_rolling($x, 3, 'sum') - pdl('[BAD, BAD, 151.3, 143.9, 103, 90.4]')) < .0000001));
+ok(all(abs(apply_rolling($y, 3, 'sum') - pdl('[
                                                [
-                                                [ 'BAD', 'BAD', 251.1, 231.5, 186.4],
-                                                [ 'BAD', 'BAD', 211.5, 184.5, 159.8],
-                                                [ 'BAD', 'BAD',   137, 193.7, 184.3],
+                                                [ BAD, BAD, 251.1, 231.5, 186.4],
+                                                [ BAD, BAD, 211.5, 184.5, 159.8],
+                                                [ BAD, BAD,   137, 193.7, 184.3],
                                                ],
                                                [
-                                                [ 'BAD', 'BAD', 162.8, 233.8, 193.5],
-                                                [ 'BAD', 'BAD', 228.7, 220.9,   220],
-                                                [ 'BAD', 'BAD', 164.3,  95.3, 115.1],
+                                                [ BAD, BAD, 162.8, 233.8, 193.5],
+                                                [ BAD, BAD, 228.7, 220.9,   220],
+                                                [ BAD, BAD, 164.3,  95.3, 115.1],
                                                ]
-                                              ]);
+                                              ]')) < .0000001));
 
 delta_ok($x->apply_slice($slices1, 'sum')->unpdl, [151.3, 57.1]);
 delta_ok($y->apply_slice($slices2, 'sum')->unpdl, [
