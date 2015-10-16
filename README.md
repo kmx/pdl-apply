@@ -27,10 +27,10 @@ PDL::Apply - Apply a given function in "rolling" / "moving" / "over" manners
 
 This module allows you to:
 
-- compute "rolling" functions (like `Moving Average`) with given sliding windows
+- compute "rolling" functions (like `Moving Average`) with given sliding window
 - compute "over" like functions (like `sumover`) with arbitrary function applied
 
-But keep in mind that the speed is far beyond the functions with C implementation like `sumover`.
+But keep in mind that the speed is far far beyond the functions with C implementation like `sumover`.
 
 # FUNCTIONS
 
@@ -70,7 +70,7 @@ Or import all available functions:
     $result = $pdl->apply_slice($slices, $func, @fargs);
 
     # $pdl    .. Input piddle, 1D or ND
-    # $slices .. Piddle (2,N) with slices - [startidx,endidx] pairs
+    # $slices .. Piddle (2,N) with slices - [startidx, endidx] pairs
     # $func   .. Function (PDL method) name as a string or code reference
     # @fargs  .. Optional arguments passed to function
 
