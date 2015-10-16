@@ -8,7 +8,7 @@ our @ISA = qw(Exporter);
 our @EXPORT_OK   = qw(apply_rolling apply_over apply_slice);
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-our $VERSION = '0.001';
+our $VERSION = '0.001_01';
 
 sub import {
   my $package = shift;
